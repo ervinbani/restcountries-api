@@ -13,7 +13,8 @@ export class Country {
         this.flags = data.flags;
     }
     static async fetchAllCountries() {
-        const data = await ApiService.getAllCountries("fields=name,population,region,capital,flags");
+        const data = await ApiService.getAllCountries("fields=name,population,region,capital,flags,currencies");
+        console.log(data);
         return data.map((countryData) => new Country(countryData));
     }
 }

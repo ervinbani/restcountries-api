@@ -30,8 +30,9 @@ export class Country {
 
   static async fetchAllCountries(): Promise<Country[]> {
     const data = await ApiService.getAllCountries(
-      "fields=name,population,region,capital,flags"
+      "fields=name,population,region,capital,flags,currencies"
     );
+    console.log(data);
     return data.map((countryData: any) => new Country(countryData));
   }
 }
