@@ -19,4 +19,15 @@ export default class ApiService {
       return response.json();
     });
   }
+
+  // https://restcountries.com/v3.1/name/{name}?fullText=true
+  static async getCountryByFullName(name: string): Promise<any> {
+    const url = `https://restcountries.com/v3.1/name/${name}?fullText=true`;
+    return fetch(url).then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    });
+  }
 }

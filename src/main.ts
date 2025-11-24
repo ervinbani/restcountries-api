@@ -112,6 +112,14 @@ class Main {
     this.filteredCountries.forEach((country) => {
       const countryCard = document.createElement("div");
       countryCard.className = "country-card";
+      countryCard.style.cursor = "pointer";
+
+      // Add click event to navigate to detail page
+      countryCard.addEventListener("click", () => {
+        window.location.href = `detail.html?name=${encodeURIComponent(
+          country.name.common
+        )}`;
+      });
 
       const flagImg = document.createElement("img");
       flagImg.src = country.flags.png;
