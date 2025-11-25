@@ -1,35 +1,44 @@
 {
+  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    /* ==== File Structure ==== */
+    // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
 
-    /* ==== Target Environment ==== */
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "target": "ES2017",
-    "lib": ["DOM", "ES2020"],
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "nodenext",
+    "target": "esnext",
+    "types": [],
+    // For nodejs:
+    // "lib": ["esnext"],
+    // "types": ["node"],
+    // and npm install -D @types/node
 
-    /* ==== Output ==== */
+    // Other Outputs
     "sourceMap": true,
-    "declaration": false,
-    "declarationMap": false,
+    "declaration": true,
+    "declarationMap": true,
 
-    /* ==== Strict Mode ==== */
-    "strict": true,
+    // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
 
-    /* ==== Module Behavior ==== */
+    // Style Options
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // Recommended Options
+    "strict": true,
+    "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
-    "moduleDetection": "force",
     "noUncheckedSideEffectImports": true,
-    "skipLibCheck": true,
-
-    /* ==== Not Needed ==== */
-    "jsx": "none",
-    "types": []
-  },
-  "include": ["src/**/*.ts"]
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  }
 }
