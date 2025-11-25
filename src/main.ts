@@ -2,15 +2,21 @@ import { Country } from "./models/Countries.js";
 
 class Main {
   private countriesContainer: HTMLElement | null;
+  private paginationContainer: HTMLElement | null;
   private allCountries: Country[] = [];
   private filteredCountries: Country[] = [];
   private themeToggle: HTMLButtonElement | null;
   private searchInput: HTMLInputElement | null;
   private regionFilter: HTMLSelectElement | null;
+  private currentPage: number = 1;
+  private itemsPerPage: number = 25;
 
   constructor() {
     this.countriesContainer = document.getElementById(
       "countries-container"
+    ) as HTMLElement;
+    this.paginationContainer = document.getElementById(
+      "pagination"
     ) as HTMLElement;
     this.themeToggle = document.getElementById(
       "theme-toggle"
@@ -134,6 +140,7 @@ class Main {
       return matchesSearch && matchesRegion;
     });
 
+    this.currentPage = 1; // Reset to first page when filtering
     this.renderCountries();
   }
 
@@ -150,10 +157,22 @@ class Main {
           <p>Try adjusting your search or filter criteria</p>
         </div>
       `;
+      this.renderPagination();
       return;
     }
 
-    this.filteredCountries.forEach((country) => {
+    // Calculate pagination
+    const totalPages = Math.ceil(
+      this.filteredCountries.length / this.itemsPerPage
+    );
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    const paginatedCountries = this.filteredCountries.slice(
+      startIndex,
+      endIndex
+    );
+
+    paginatedCountries.forEach((country) => {
       const countryCard = document.createElement("div");
       countryCard.className = "country-card";
       countryCard.style.cursor = "pointer";
@@ -203,7 +222,104 @@ class Main {
 
       this.countriesContainer!.appendChild(countryCard);
     });
+
+    this.renderPagination();
+  }
+
+  private renderPagination(): void {
+    if (!this.paginationContainer) return;
+
+    const totalPages = Math.ceil(
+      this.filteredCountries.length / this.itemsPerPage
+    );
+
+    if (totalPages <= 1) {
+      this.paginationContainer.innerHTML = "";
+      return;
+    }
+
+    let paginationHTML = `
+      <button 
+        class="pagination-btn" 
+        ${this.currentPage === 1 ? "disabled" : ""}
+        onclick="window.mainInstance.goToPage(${this.currentPage - 1})">
+        <i class="fas fa-chevron-left"></i>
+        Previous
+      </button>
+      
+      <div class="pagination-numbers">
+    `;
+
+    // Show page numbers
+    const maxVisiblePages = 5;
+    let startPage = Math.max(
+      1,
+      this.currentPage - Math.floor(maxVisiblePages / 2)
+    );
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage < maxVisiblePages - 1) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    if (startPage > 1) {
+      paginationHTML += `
+        <button class="pagination-number" onclick="window.mainInstance.goToPage(1)">1</button>
+        ${startPage > 2 ? '<span class="pagination-ellipsis">...</span>' : ""}
+      `;
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      paginationHTML += `
+        <button 
+          class="pagination-number ${i === this.currentPage ? "active" : ""}"
+          onclick="window.mainInstance.goToPage(${i})">
+          ${i}
+        </button>
+      `;
+    }
+
+    if (endPage < totalPages) {
+      paginationHTML += `
+        ${
+          endPage < totalPages - 1
+            ? '<span class="pagination-ellipsis">...</span>'
+            : ""
+        }
+        <button class="pagination-number" onclick="window.mainInstance.goToPage(${totalPages})">${totalPages}</button>
+      `;
+    }
+
+    paginationHTML += `
+      </div>
+      
+      <button 
+        class="pagination-btn" 
+        ${this.currentPage === totalPages ? "disabled" : ""}
+        onclick="window.mainInstance.goToPage(${this.currentPage + 1})">
+        Next
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    `;
+
+    this.paginationContainer.innerHTML = paginationHTML;
+  }
+
+  public goToPage(page: number): void {
+    const totalPages = Math.ceil(
+      this.filteredCountries.length / this.itemsPerPage
+    );
+
+    if (page < 1 || page > totalPages) return;
+
+    this.currentPage = page;
+    this.renderCountries();
+
+    // Scroll to top of countries container
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }
 
-new Main();
+// Create instance and expose globally for pagination
+const mainInstance = new Main();
+(window as any).mainInstance = mainInstance;

@@ -503,4 +503,104 @@ h1 {
   color: var(--input);
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 48px;
+  padding: 24px 0;
+  flex-wrap: wrap;
+}
+@media (min-width: 768px) {
+  .pagination {
+    gap: 16px;
+    margin-top: 64px;
+  }
+}
+
+.pagination-btn {
+  background-color: var(--elements);
+  border: none;
+  color: var(--text);
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+}
+@media (min-width: 768px) {
+  .pagination-btn {
+    font-size: 15px;
+    padding: 12px 24px;
+  }
+}
+.pagination-btn i {
+  font-size: 12px;
+}
+@media (min-width: 768px) {
+  .pagination-btn i {
+    font-size: 14px;
+  }
+}
+.pagination-btn:hover:not(:disabled) {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination-number {
+  background-color: var(--elements);
+  border: none;
+  color: var(--text);
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+@media (min-width: 768px) {
+  .pagination-number {
+    font-size: 15px;
+    width: 44px;
+    height: 44px;
+  }
+}
+.pagination-number:hover:not(.active) {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+.pagination-number.active {
+  background-color: var(--text);
+  color: var(--elements);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.pagination-ellipsis {
+  color: var(--text);
+  font-weight: 600;
+  padding: 0 4px;
+  user-select: none;
+}
+
 /*# sourceMappingURL=main.css.map */
