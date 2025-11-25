@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Country Detail - Where in the world?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="header" role="banner">
+      <div class="header-content">
+        <h1>Where in the world?</h1>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle dark mode"
+          aria-pressed="false"
+        >
+          <i class="far fa-moon" aria-hidden="true"></i>
+          <span>Dark Mode</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content" role="main">
+      <button
+        id="back-button"
+        class="back-button"
+        aria-label="Go back to countries list"
+      >
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        Back
+      </button>
+
+      <div
+        id="country-detail"
+        class="country-detail"
+        role="region"
+        aria-live="polite"
+        aria-label="Country details"
+      ></div>
+    </main>
+
+    <script type="module" src="detail.js"></script>
+  </body>
+</html>
