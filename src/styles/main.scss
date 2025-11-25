@@ -1,18 +1,29 @@
-// CSS Variables for theme colors
+// SCSS Variables for theme colors
+$bg-light: hsl(0, 0%, 98%);
+$elements-light: hsl(0, 100%, 100%);
+$text-light: hsl(200, 15%, 8%);
+$input-light: hsl(0, 0%, 52%);
+
+$bg-dark: hsl(207, 26%, 17%);
+$elements-dark: hsl(209, 23%, 22%);
+$text-dark: hsl(0, 100%, 100%);
+$input-dark: hsl(0, 100%, 100%);
+
+// CSS Variables for dynamic theme switching
 :root {
   // Light Mode Colors (default)
-  --bg: hsl(0, 0%, 98%);
-  --elements: hsl(0, 100%, 100%);
-  --text: hsl(200, 15%, 8%);
-  --input: hsl(0, 0%, 52%);
+  --bg: #{$bg-light};
+  --elements: #{$elements-light};
+  --text: #{$text-light};
+  --input: #{$input-light};
 }
 
 // Dark Mode Colors
 [data-theme="dark"] {
-  --bg: hsl(207, 26%, 17%);
-  --elements: hsl(209, 23%, 22%);
-  --text: hsl(0, 100%, 100%);
-  --input: hsl(0, 100%, 100%);
+  --bg: #{$bg-dark};
+  --elements: #{$elements-dark};
+  --text: #{$text-dark};
+  --input: #{$input-dark};
 }
 
 * {
@@ -435,6 +446,13 @@ h1 {
 .error-message {
   text-align: center;
   padding: 60px 20px;
+  grid-column: 1 / -1;
+
+  i.fa-exclamation-triangle {
+    font-size: 48px;
+    color: #e74c3c;
+    margin-bottom: 20px;
+  }
 
   h2 {
     font-size: 24px;
@@ -445,6 +463,74 @@ h1 {
   p {
     font-size: 16px;
     margin-bottom: 32px;
+    color: var(--input);
+  }
+
+  .retry-button {
+    background-color: var(--elements);
+    border: none;
+    color: var(--text);
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 32px;
+    border-radius: 5px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+
+    @media (min-width: 768px) {
+      font-size: 16px;
+      padding: 12px 40px;
+    }
+
+    &:hover {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.loading-message {
+  text-align: center;
+  padding: 100px 20px;
+  grid-column: 1 / -1;
+
+  i.fa-spinner {
+    font-size: 48px;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--input);
+  }
+}
+
+.no-results {
+  text-align: center;
+  padding: 100px 20px;
+  grid-column: 1 / -1;
+
+  i.fa-search {
+    font-size: 48px;
+    color: var(--input);
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 16px;
     color: var(--input);
   }
 }

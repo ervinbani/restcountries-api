@@ -423,6 +423,12 @@ h1 {
 .error-message {
   text-align: center;
   padding: 60px 20px;
+  grid-column: 1/-1;
+}
+.error-message i.fa-exclamation-triangle {
+  font-size: 48px;
+  color: #e74c3c;
+  margin-bottom: 20px;
 }
 .error-message h2 {
   font-size: 24px;
@@ -432,6 +438,68 @@ h1 {
 .error-message p {
   font-size: 16px;
   margin-bottom: 32px;
+  color: var(--input);
+}
+.error-message .retry-button {
+  background-color: var(--elements);
+  border: none;
+  color: var(--text);
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 32px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+}
+@media (min-width: 768px) {
+  .error-message .retry-button {
+    font-size: 16px;
+    padding: 12px 40px;
+  }
+}
+.error-message .retry-button:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.loading-message {
+  text-align: center;
+  padding: 100px 20px;
+  grid-column: 1/-1;
+}
+.loading-message i.fa-spinner {
+  font-size: 48px;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+.loading-message p {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--input);
+}
+
+.no-results {
+  text-align: center;
+  padding: 100px 20px;
+  grid-column: 1/-1;
+}
+.no-results i.fa-search {
+  font-size: 48px;
+  color: var(--input);
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+.no-results h2 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.no-results p {
+  font-size: 16px;
   color: var(--input);
 }
 

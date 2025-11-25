@@ -9,7 +9,9 @@ class Main {
   private regionFilter: HTMLSelectElement | null;
 
   constructor() {
-    this.countriesContainer = document.getElementById("countries-container");
+    this.countriesContainer = document.getElementById(
+      "countries-container"
+    ) as HTMLElement;
     this.themeToggle = document.getElementById(
       "theme-toggle"
     ) as HTMLButtonElement;
@@ -79,12 +81,43 @@ class Main {
 
   private async loadCountries(): Promise<void> {
     try {
+      this.showLoading();
       this.allCountries = await Country.fetchAllCountries();
       this.filteredCountries = [...this.allCountries];
       this.renderCountries();
     } catch (error) {
       console.error("Error fetching countries:", error);
+      this.renderError(
+        error instanceof Error
+          ? error.message
+          : "Failed to load countries. Please try again later."
+      );
     }
+  }
+
+  private showLoading(): void {
+    if (!this.countriesContainer) return;
+    this.countriesContainer.innerHTML = `
+      <div class="loading-message">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading countries...</p>
+      </div>
+    `;
+  }
+
+  private renderError(message: string): void {
+    if (!this.countriesContainer) return;
+    this.countriesContainer.innerHTML = `
+      <div class="error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h2>Oops! Something went wrong</h2>
+        <p>${message}</p>
+        <button class="retry-button" onclick="window.location.reload()">
+          <i class="fas fa-redo"></i>
+          Try Again
+        </button>
+      </div>
+    `;
   }
 
   private filterCountries(): void {
@@ -109,6 +142,17 @@ class Main {
 
     this.countriesContainer.innerHTML = "";
 
+    if (this.filteredCountries.length === 0) {
+      this.countriesContainer.innerHTML = `
+        <div class="no-results">
+          <i class="fas fa-search"></i>
+          <h2>No countries found</h2>
+          <p>Try adjusting your search or filter criteria</p>
+        </div>
+      `;
+      return;
+    }
+
     this.filteredCountries.forEach((country) => {
       const countryCard = document.createElement("div");
       countryCard.className = "country-card";
@@ -125,6 +169,12 @@ class Main {
       flagImg.src = country.flags.png;
       flagImg.alt = country.flags.alt || `Flag of ${country.name.common}`;
       flagImg.className = "country-flag";
+
+      // Add error handling for flag image
+      flagImg.onerror = () => {
+        flagImg.src =
+          "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='213'%3E%3Crect fill='%23ddd' width='320' height='213'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='sans-serif'%3ENo flag available%3C/text%3E%3C/svg%3E";
+      };
 
       const countryInfo = document.createElement("div");
       countryInfo.className = "country-info";

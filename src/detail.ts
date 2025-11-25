@@ -83,12 +83,27 @@ class DetailPage {
 
   private async loadCountryDetail(countryName: string): Promise<void> {
     try {
+      this.showLoading();
       const country = await Country.fetchCountryByFullName(countryName);
       this.renderCountryDetail(country);
     } catch (error) {
       console.error("Error fetching country details:", error);
-      this.renderError();
+      this.renderError(
+        error instanceof Error
+          ? error.message
+          : "Failed to load country details."
+      );
     }
+  }
+
+  private showLoading(): void {
+    if (!this.countryDetailContainer) return;
+    this.countryDetailContainer.innerHTML = `
+      <div class="loading-message">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading country details...</p>
+      </div>
+    `;
   }
 
   private renderCountryDetail(country: Country): void {
@@ -188,13 +203,17 @@ class DetailPage {
     });
   }
 
-  private renderError(): void {
+  private renderError(message?: string): void {
     if (!this.countryDetailContainer) return;
 
     this.countryDetailContainer.innerHTML = `
       <div class="error-message">
-        <h2>Country not found</h2>
-        <p>The country you're looking for doesn't exist or couldn't be loaded.</p>
+        <i class="fas fa-exclamation-triangle"></i>
+        <h2>Country Not Found</h2>
+        <p>${
+          message ||
+          "The country you're looking for doesn't exist or couldn't be loaded."
+        }</p>
         <button class="back-button" onclick="window.location.href='index.html'">
           <i class="fas fa-arrow-left"></i>
           Back to Home
