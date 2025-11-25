@@ -17,29 +17,43 @@
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
-    <header class="header">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="header" role="banner">
       <div class="header-content">
         <h1>Where in the world?</h1>
-        <button id="theme-toggle" class="theme-toggle">
-          <i class="far fa-moon"></i>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle dark mode"
+          aria-pressed="false"
+        >
+          <i class="far fa-moon" aria-hidden="true"></i>
           <span>Dark Mode</span>
         </button>
       </div>
     </header>
 
-    <main>
-      <div class="controls">
+    <main id="main-content" role="main">
+      <div
+        class="controls"
+        role="search"
+        aria-label="Search and filter countries"
+      >
         <div class="search-box">
-          <i class="fas fa-search"></i>
+          <label for="search-input" class="sr-only">Search for a country</label>
+          <i class="fas fa-search" aria-hidden="true"></i>
           <input
             type="text"
             id="search-input"
             placeholder="Search for a country..."
+            aria-label="Search for a country"
           />
         </div>
 
         <div class="filter-box">
-          <select id="region-filter">
+          <label for="region-filter" class="sr-only">Filter by region</label>
+          <select id="region-filter" aria-label="Filter countries by region">
             <option value="">Filter by Region</option>
             <option value="Africa">Africa</option>
             <option value="Americas">America</option>
@@ -50,9 +64,19 @@
         </div>
       </div>
 
-      <div id="countries-container"></div>
+      <div
+        id="countries-container"
+        role="region"
+        aria-live="polite"
+        aria-label="Countries list"
+      ></div>
 
-      <div id="pagination" class="pagination"></div>
+      <nav
+        id="pagination"
+        class="pagination"
+        role="navigation"
+        aria-label="Pagination navigation"
+      ></nav>
     </main>
 
     <script type="module" src="../dist/main.js"></script>

@@ -9,6 +9,9 @@ $elements-dark: hsl(209, 23%, 22%);
 $text-dark: hsl(0, 100%, 100%);
 $input-dark: hsl(0, 100%, 100%);
 
+// Import accessibility styles
+@import "accessibility";
+
 // CSS Variables for dynamic theme switching
 :root {
   // Light Mode Colors (default)

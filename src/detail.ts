@@ -65,6 +65,9 @@ class DetailPage {
       const icon = this.themeToggle.querySelector("i");
       const text = this.themeToggle.querySelector("span");
 
+      // Update aria-pressed state
+      this.themeToggle.setAttribute("aria-pressed", isDark.toString());
+
       if (isDark) {
         icon?.classList.remove("far", "fa-moon");
         icon?.classList.add("fas", "fa-sun");
@@ -84,6 +87,7 @@ class DetailPage {
   private async loadCountryDetail(countryName: string): Promise<void> {
     try {
       this.showLoading();
+      debugger;
       const country = await Country.fetchCountryByFullName(countryName);
       this.renderCountryDetail(country);
     } catch (error) {
@@ -99,8 +103,8 @@ class DetailPage {
   private showLoading(): void {
     if (!this.countryDetailContainer) return;
     this.countryDetailContainer.innerHTML = `
-      <div class="loading-message">
-        <i class="fas fa-spinner fa-spin"></i>
+      <div class="loading-message" role="status" aria-live="polite">
+        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
         <p>Loading country details...</p>
       </div>
     `;
@@ -175,14 +179,14 @@ class DetailPage {
     const borderButtons = borders
       .map(
         (border) =>
-          `<button class="border-country" data-code="${border}">${border}</button>`
+          `<button class="border-country" data-code="${border}" aria-label="View ${border}">${border}</button>`
       )
       .join("");
 
     return `
       <div class="border-countries">
         <strong>Border Countries:</strong>
-        <div class="border-buttons">
+        <div class="border-buttons" role="group" aria-label="Border countries">
           ${borderButtons}
         </div>
       </div>
@@ -207,15 +211,15 @@ class DetailPage {
     if (!this.countryDetailContainer) return;
 
     this.countryDetailContainer.innerHTML = `
-      <div class="error-message">
-        <i class="fas fa-exclamation-triangle"></i>
+      <div class="error-message" role="alert">
+        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
         <h2>Country Not Found</h2>
         <p>${
           message ||
           "The country you're looking for doesn't exist or couldn't be loaded."
         }</p>
-        <button class="back-button" onclick="window.location.href='index.html'">
-          <i class="fas fa-arrow-left"></i>
+        <button class="back-button" onclick="window.location.href='index.html'" aria-label="Go back to countries list">
+          <i class="fas fa-arrow-left" aria-hidden="true"></i>
           Back to Home
         </button>
       </div>

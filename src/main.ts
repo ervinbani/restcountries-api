@@ -73,6 +73,9 @@ class Main {
       const icon = this.themeToggle.querySelector("i");
       const text = this.themeToggle.querySelector("span");
 
+      // Update aria-pressed state
+      this.themeToggle.setAttribute("aria-pressed", isDark.toString());
+
       if (isDark) {
         icon?.classList.remove("far", "fa-moon");
         icon?.classList.add("fas", "fa-sun");
@@ -104,8 +107,8 @@ class Main {
   private showLoading(): void {
     if (!this.countriesContainer) return;
     this.countriesContainer.innerHTML = `
-      <div class="loading-message">
-        <i class="fas fa-spinner fa-spin"></i>
+      <div class="loading-message" role="status" aria-live="polite">
+        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
         <p>Loading countries...</p>
       </div>
     `;
@@ -114,12 +117,12 @@ class Main {
   private renderError(message: string): void {
     if (!this.countriesContainer) return;
     this.countriesContainer.innerHTML = `
-      <div class="error-message">
-        <i class="fas fa-exclamation-triangle"></i>
+      <div class="error-message" role="alert">
+        <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
         <h2>Oops! Something went wrong</h2>
         <p>${message}</p>
         <button class="retry-button" onclick="window.location.reload()">
-          <i class="fas fa-redo"></i>
+          <i class="fas fa-redo" aria-hidden="true"></i>
           Try Again
         </button>
       </div>
@@ -176,12 +179,26 @@ class Main {
       const countryCard = document.createElement("div");
       countryCard.className = "country-card";
       countryCard.style.cursor = "pointer";
+      countryCard.setAttribute("role", "button");
+      countryCard.setAttribute("tabindex", "0");
+      countryCard.setAttribute(
+        "aria-label",
+        `View details for ${country.name.common}`
+      );
 
       // Add click event to navigate to detail page
-      countryCard.addEventListener("click", () => {
+      const navigateToDetail = () => {
         window.location.href = `detail.html?name=${encodeURIComponent(
           country.name.common
         )}`;
+      };
+
+      countryCard.addEventListener("click", navigateToDetail);
+      countryCard.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          navigateToDetail();
+        }
       });
 
       const flagImg = document.createElement("img");
@@ -242,12 +259,13 @@ class Main {
       <button 
         class="pagination-btn" 
         ${this.currentPage === 1 ? "disabled" : ""}
-        onclick="window.mainInstance.goToPage(${this.currentPage - 1})">
-        <i class="fas fa-chevron-left"></i>
+        onclick="window.mainInstance.goToPage(${this.currentPage - 1})"
+        aria-label="Go to previous page">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
         Previous
       </button>
       
-      <div class="pagination-numbers">
+      <div class="pagination-numbers" role="group" aria-label="Page numbers">
     `;
 
     // Show page numbers
@@ -264,8 +282,12 @@ class Main {
 
     if (startPage > 1) {
       paginationHTML += `
-        <button class="pagination-number" onclick="window.mainInstance.goToPage(1)">1</button>
-        ${startPage > 2 ? '<span class="pagination-ellipsis">...</span>' : ""}
+        <button class="pagination-number" onclick="window.mainInstance.goToPage(1)" aria-label="Go to page 1">1</button>
+        ${
+          startPage > 2
+            ? '<span class="pagination-ellipsis" aria-hidden="true">...</span>'
+            : ""
+        }
       `;
     }
 
@@ -273,7 +295,13 @@ class Main {
       paginationHTML += `
         <button 
           class="pagination-number ${i === this.currentPage ? "active" : ""}"
-          onclick="window.mainInstance.goToPage(${i})">
+          onclick="window.mainInstance.goToPage(${i})"
+          aria-label="${
+            i === this.currentPage
+              ? `Current page, page ${i}`
+              : `Go to page ${i}`
+          }"
+          ${i === this.currentPage ? 'aria-current="page"' : ""}>
           ${i}
         </button>
       `;
@@ -283,10 +311,10 @@ class Main {
       paginationHTML += `
         ${
           endPage < totalPages - 1
-            ? '<span class="pagination-ellipsis">...</span>'
+            ? '<span class="pagination-ellipsis" aria-hidden="true">...</span>'
             : ""
         }
-        <button class="pagination-number" onclick="window.mainInstance.goToPage(${totalPages})">${totalPages}</button>
+        <button class="pagination-number" onclick="window.mainInstance.goToPage(${totalPages})" aria-label="Go to page ${totalPages}">${totalPages}</button>
       `;
     }
 
@@ -296,9 +324,10 @@ class Main {
       <button 
         class="pagination-btn" 
         ${this.currentPage === totalPages ? "disabled" : ""}
-        onclick="window.mainInstance.goToPage(${this.currentPage + 1})">
+        onclick="window.mainInstance.goToPage(${this.currentPage + 1})"
+        aria-label="Go to next page">
         Next
-        <i class="fas fa-chevron-right"></i>
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
       </button>
     `;
 
