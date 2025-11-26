@@ -61,5 +61,24 @@ export default class ApiService {
             throw error;
         }
     }
+    // https://restcountries.com/v3.1/alpha?codes={code},{code},{code}
+    static async getCountriesByCodes(codes) {
+        try {
+            const codesParam = codes.join(",");
+            const url = `https://restcountries.com/v3.1/alpha?codes=${codesParam}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch countries by codes: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            return data;
+        }
+        catch (error) {
+            if (error instanceof TypeError) {
+                throw new Error("Network error: Please check your internet connection");
+            }
+            throw error;
+        }
+    }
 }
 //# sourceMappingURL=ApiServices.js.map

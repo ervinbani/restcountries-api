@@ -35,5 +35,9 @@ export class Country {
         const data = await ApiService.getCountryByFullName(name);
         return new Country(data[0]);
     }
+    static async fetchCountriesByCodes(codes) {
+        const data = await ApiService.getCountriesByCodes(codes);
+        return data.map((countryData) => new Country(countryData));
+    }
 }
 //# sourceMappingURL=Countries.js.map

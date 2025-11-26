@@ -52,5 +52,6 @@ export declare class Country implements ICountryData {
     static fetchAllCountries(): Promise<Country[]>;
     static fetchCountryByName(name: string): Promise<Country[]>;
     static fetchCountryByFullName(name: string): Promise<Country>;
+    static fetchCountriesByCodes(codes: string[]): Promise<Country[]>;
 }
 //# sourceMappingURL=Countries.d.ts.map

@@ -93,4 +93,9 @@ export class Country implements ICountryData {
     const data = await ApiService.getCountryByFullName(name);
     return new Country(data[0]);
   }
+
+  static async fetchCountriesByCodes(codes: string[]): Promise<Country[]> {
+    const data = await ApiService.getCountriesByCodes(codes);
+    return data.map((countryData: any) => new Country(countryData));
+  }
 }

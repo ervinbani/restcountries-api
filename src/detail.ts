@@ -162,46 +162,77 @@ class DetailPage {
             </div>
           </div>
           
-          ${this.renderBorderCountries(country.borders)}
+          <div id="border-countries-container"></div>
         </div>
       </div>
     `;
 
-    // Add event listeners to border country buttons
-    this.addBorderCountryListeners();
+    // Load and render border countries
+    if (country.borders && country.borders.length > 0) {
+      this.loadBorderCountries(country.borders);
+    }
   }
 
-  private renderBorderCountries(borders?: string[]): string {
-    if (!borders || borders.length === 0) {
-      return "";
-    }
+  private async loadBorderCountries(borderCodes: string[]): Promise<void> {
+    const container = document.getElementById("border-countries-container");
+    if (!container) return;
 
-    const borderButtons = borders
-      .map(
-        (border) =>
-          `<button class="border-country" data-code="${border}" aria-label="View ${border}">${border}</button>`
-      )
-      .join("");
-
-    return `
-      <div class="border-countries">
-        <strong>Border Countries:</strong>
-        <div class="border-buttons" role="group" aria-label="Border countries">
-          ${borderButtons}
+    try {
+      // Show loading state
+      container.innerHTML = `
+        <div class="border-countries">
+          <strong>Border Countries:</strong>
+          <div class="border-buttons" role="group" aria-label="Border countries">
+            <span class="loading-borders">Loading border countries...</span>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+
+      // Fetch border countries
+      const borderCountries = await Country.fetchCountriesByCodes(borderCodes);
+
+      // Render border countries with full names
+      const borderButtons = borderCountries
+        .map(
+          (country) =>
+            `<button class="border-country" data-name="${country.name.common}" aria-label="View details for ${country.name.common}">${country.name.common}</button>`
+        )
+        .join("");
+
+      container.innerHTML = `
+        <div class="border-countries">
+          <strong>Border Countries:</strong>
+          <div class="border-buttons" role="group" aria-label="Border countries">
+            ${borderButtons}
+          </div>
+        </div>
+      `;
+
+      // Add event listeners to border country buttons
+      this.addBorderCountryListeners();
+    } catch (error) {
+      console.error("Error loading border countries:", error);
+      container.innerHTML = `
+        <div class="border-countries">
+          <strong>Border Countries:</strong>
+          <div class="border-buttons" role="group" aria-label="Border countries">
+            <span class="error-borders">Unable to load border countries</span>
+          </div>
+        </div>
+      `;
+    }
   }
 
   private addBorderCountryListeners(): void {
     const borderButtons = document.querySelectorAll(".border-country");
     borderButtons.forEach((button) => {
-      button.addEventListener("click", async (e) => {
-        const code = (e.target as HTMLElement).dataset.code;
-        if (code) {
-          // In a real implementation, you'd need to convert the code to country name
-          // For now, we'll just log it
-          console.log("Border country clicked:", code);
+      button.addEventListener("click", (e) => {
+        const countryName = (e.target as HTMLElement).dataset.name;
+        if (countryName) {
+          // Navigate to the border country's detail page
+          window.location.href = `detail.html?name=${encodeURIComponent(
+            countryName
+          )}`;
         }
       });
     });
