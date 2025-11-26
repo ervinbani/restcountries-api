@@ -6,9 +6,9 @@
   "author": "",
   "type": "module",
   "scripts": {
-    "build": "tsc && sass src/styles/main.scss public/styles/main.css",
+    "build": "tsc && sass src/styles/main.scss docs/styles/main.css",
     "watch:ts": "tsc --watch",
-    "watch:sass": "sass src/styles/main.scss public/styles/main.css --watch",
+    "watch:sass": "sass src/styles/main.scss docs/styles/main.css --watch",
     "dev": "npm run watch:ts & npm run watch:sass",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
