@@ -4,33 +4,6 @@ A responsive web application that allows users to explore countries around the w
 
 🔗 **[Live Demo](https://ervinbani.github.io/restcountries-api/)**
 
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![SCSS](https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white)
-![REST API](https://img.shields.io/badge/REST_API-02569B?style=for-the-badge&logo=rest&logoColor=white)
-
-## Table of contents
-
-- [Overview](#overview)
-  - [Features](#features)
-  - [Links](#links)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Development](#development)
-- [Project Structure](#project-structure)
-- [API Integration](#api-integration)
-- [Accessibility Features](#accessibility-features)
-- [Design Specifications](#design-specifications)
-- [Version Control](#version-control)
-- [Deployment](#deployment)
-- [Development Reflection](#development-reflection)
-- [Future Improvements](#future-improvements)
-- [Author](#author)
-- [Acknowledgments](#acknowledgments)
-
-## Overview
-
 ### Features
 
 - ✅ **Country Listing**: Browse all 250+ countries with detailed information displayed in responsive cards
@@ -444,7 +417,3 @@ If I were to continue development, I'd focus on converting border country codes 
 - [WCAG Guidelines](https://www.w3.org/WAI/WCAG21/quickref/) - Accessibility best practices
 
 ---
-
-⭐ **If you found this project helpful, please consider giving it a star on GitHub!**
-
-📝 **Contributions, issues, and feature requests are welcome!**

@@ -14,12 +14,12 @@ export class Country {
         this.name = data.name;
         this.population = data.population;
         this.region = data.region;
-        this.subregion = data.subregion;
-        this.capital = data.capital;
-        this.tld = data.tld;
-        this.currencies = data.currencies;
-        this.languages = data.languages;
-        this.borders = data.borders;
+        this.subregion = data.subregion ?? undefined;
+        this.capital = data.capital ?? undefined;
+        this.tld = data.tld ?? undefined;
+        this.currencies = data.currencies ?? undefined;
+        this.languages = data.languages ?? undefined;
+        this.borders = data.borders ?? undefined;
         this.flags = data.flags;
     }
     static async fetchAllCountries() {

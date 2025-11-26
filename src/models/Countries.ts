@@ -1,47 +1,78 @@
 import ApiService from "../services/ApiServices.js";
 
-export class Country {
-  name: {
-    common: string;
-    official: string;
-    nativeName?: {
-      [key: string]: {
-        official: string;
-        common: string;
-      };
+export interface ICountryName {
+  common: string;
+  official: string;
+  nativeName?: {
+    [key: string]: {
+      official: string;
+      common: string;
     };
   };
+}
+
+export interface ICountryFlags {
+  png: string;
+  svg: string;
+  alt?: string;
+}
+
+export interface ICountryCurrency {
+  name: string;
+  symbol: string;
+}
+
+export interface ICountryData {
+  name: ICountryName;
   population: number;
   region: string;
-  subregion?: string;
-  capital?: string[];
-  tld?: string[];
-  currencies?: {
-    [key: string]: {
-      name: string;
-      symbol: string;
-    };
-  };
-  languages?: {
-    [key: string]: string;
-  };
-  borders?: string[];
-  flags: {
-    png: string;
-    svg: string;
-    alt?: string;
-  };
+  subregion?: string | undefined;
+  capital?: string[] | undefined;
+  tld?: string[] | undefined;
+  currencies?:
+    | {
+        [key: string]: ICountryCurrency;
+      }
+    | undefined;
+  languages?:
+    | {
+        [key: string]: string;
+      }
+    | undefined;
+  borders?: string[] | undefined;
+  flags: ICountryFlags;
+}
 
-  constructor(data: any) {
+export class Country implements ICountryData {
+  name: ICountryName;
+  population: number;
+  region: string;
+  subregion?: string | undefined;
+  capital?: string[] | undefined;
+  tld?: string[] | undefined;
+  currencies?:
+    | {
+        [key: string]: ICountryCurrency;
+      }
+    | undefined;
+  languages?:
+    | {
+        [key: string]: string;
+      }
+    | undefined;
+  borders?: string[] | undefined;
+  flags: ICountryFlags;
+
+  constructor(data: ICountryData) {
     this.name = data.name;
     this.population = data.population;
     this.region = data.region;
-    this.subregion = data.subregion;
-    this.capital = data.capital;
-    this.tld = data.tld;
-    this.currencies = data.currencies;
-    this.languages = data.languages;
-    this.borders = data.borders;
+    this.subregion = data.subregion ?? undefined;
+    this.capital = data.capital ?? undefined;
+    this.tld = data.tld ?? undefined;
+    this.currencies = data.currencies ?? undefined;
+    this.languages = data.languages ?? undefined;
+    this.borders = data.borders ?? undefined;
     this.flags = data.flags;
   }
 
