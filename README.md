@@ -13,7 +13,8 @@ A responsive web application that allows users to explore countries around the w
 - ✅ **Detail View**: Click on any country to view comprehensive information including:
   - Native name, population, region, sub-region
   - Capital city, currencies, languages
-  - Top-level domain and border countries
+  - Top-level domain and clickable border countries
+- ✅ **Border Countries Navigation**: Click on border country buttons to navigate to their detail pages
 - ✅ **Dark Mode**: Toggle between light and dark themes with persistent storage
 - ✅ **Responsive Design**: Fully responsive layout optimized for mobile, tablet, and desktop devices
 - ✅ **Accessibility**: WCAG compliant with ARIA labels, keyboard navigation, skip links, and screen reader support
@@ -152,6 +153,7 @@ This project uses the [REST Countries API v3.1](https://restcountries.com/) to f
 - `GET /v3.1/all?fields=name,population,region,capital,flags` - Fetch all countries with specific fields
 - `GET /v3.1/name/{name}` - Search countries by name (partial match)
 - `GET /v3.1/name/{name}?fullText=true` - Get country by exact name match (returns all fields)
+- `GET /v3.1/alpha?codes={code},{code},{code}` - Fetch multiple countries by their 3-letter codes (for border countries)
 
 ### API Service Architecture:
 
@@ -163,6 +165,7 @@ class ApiService {
   static async getAllCountries(params?: string): Promise<any[]>;
   static async getCountryByName(name: string): Promise<any[]>;
   static async getCountryByFullName(name: string): Promise<any>;
+  static async getCountriesByCodes(codes: string[]): Promise<any[]>;
 }
 
 // Country Model - Business logic and data transformation
@@ -170,6 +173,7 @@ class Country {
   static async fetchAllCountries(): Promise<Country[]>;
   static async searchCountries(query: string): Promise<Country[]>;
   static async fetchCountryByFullName(name: string): Promise<Country>;
+  static async fetchCountriesByCodes(codes: string[]): Promise<Country[]>;
 }
 ```
 
@@ -289,7 +293,9 @@ This project demonstrates professional Git practices:
 7. Error handling and loading states
 8. Accessibility enhancements
 9. SCSS variable refactoring
-10. Build configuration for deployment
+10. Border countries with full names and navigation
+11. TypeScript interfaces for type safety
+12. Build configuration for deployment
 
 ## Deployment
 
@@ -356,6 +362,11 @@ The dark mode feature with localStorage persistence was particularly satisfying 
 
 Error handling presented interesting scenarios—network failures, 404 errors, and loading states all needed user-friendly feedback. Implementing retry functionality made the app more resilient and user-centric, ensuring users aren't left stranded when API calls fail.
 
+#### 6. Border Countries Implementation
+
+**Challenge**: Border countries were initially displayed as 3-letter ISO codes (e.g., USA, CAN, MEX) which weren't user-friendly.  
+**Solution**: Implemented asynchronous loading of border countries using the `/alpha?codes=` API endpoint to fetch full country names. Added click navigation to allow users to explore neighboring countries seamlessly.
+
 ### Solutions Implemented
 
 - **Clean Architecture**: Separated concerns with Model-Service-View pattern
@@ -379,13 +390,12 @@ Error handling presented interesting scenarios—network failures, 404 errors, a
 
 This project solidified my understanding of TypeScript, modern CSS with SCSS, API integration patterns, and the critical importance of accessibility in web applications. The combination of strong typing, clean architecture, and user-centric design resulted in a robust, maintainable application. Most importantly, I learned that building accessible, performant applications requires intentional planning and continuous refinement throughout the development process.
 
-The experience of taking a project from initial setup through deployment, while solving real challenges along the way, has been invaluable for my growth as a developer. I'm proud of the final result and the lessons learned throughout this journey.
+The experience of taking a project from initial setup through deployment, while solving real challenges along the way, has been invaluable for my growth as a developer. Successfully implementing features like clickable border countries with asynchronous data loading taught me the importance of progressive enhancement and user experience optimization. I'm proud of the final result and the lessons learned throughout this journey.
 
-If I were to continue development, I'd focus on converting border country codes to clickable names, adding offline support with service workers, implementing a comparison feature, and adding unit tests for better code reliability.
+If I were to continue development, I'd focus on adding offline support with service workers, implementing a comparison feature, adding unit tests for better code reliability, and creating a favorites system with localStorage persistence.
 
 ## Future Improvements
 
-- [ ] **Border Country Navigation**: Convert 3-letter country codes to clickable names using additional API calls
 - [ ] **Advanced Filters**: Multiple simultaneous filters (population range, language, currency)
 - [ ] **Favorites System**: Save favorite countries with localStorage persistence
 - [ ] **Comparison Feature**: Side-by-side comparison of multiple countries
