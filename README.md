@@ -1,6 +1,6 @@
 # REST Countries API - Where in the world?
 
-A responsive web application that allows users to explore countries around the world using the REST Countries API. Built with TypeScript, SCSS, and modern web development practices with comprehensive accessibility features.
+A responsive web application (from frontendmaster) that allows users to explore countries around the world using the REST Countries API. Built with TypeScript, SCSS, and modern web development practices with comprehensive accessibility features.
 
 🔗 **[Live Demo](https://ervinbani.github.io/restcountries-api/)**
 
